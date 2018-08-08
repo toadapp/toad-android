@@ -1,0 +1,37 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="bottomSheetDialogTheme">@style/Theme.Design.BottomSheetDialog</item>
+
+        <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
+        <item name="dropDownListViewStyle">@style/DropDownListViewStyle</item>
+
+        <item name="android:textAppearanceLargePopupMenu">@style/TextAppearanceLargePopupMenu</item>
+        <item name="textAppearanceLargePopupMenu">@style/TextAppearanceLargePopupMenu</item>
+
+        <item name="android:textAppearanceSmallPopupMenu">@style/TextAppearanceSmallPopupMenu</item>
+        <item name="textAppearanceSmallPopupMenu">@style/TextAppearanceSmallPopupMenu</item>
+  </style>
+
+    <style name="DropDownListViewStyle" parent="@style/Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">#505050</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="TextAppearanceLargePopupMenu" parent="@style/TextAppearance.AppCompat.Widget.PopupMenu.Large">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextAppearanceSmallPopupMenu" parent="@style/TextAppearance.AppCompat.Widget.PopupMenu.Small">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_item_custom_1"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_custom_2"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_custom_3"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_custom_4"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_custom_5"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_custom_6"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_custom_7"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_custom_8"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_custom_9"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_custom_10"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="never" />
+
+</menu>
