@@ -11,6 +11,7 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.PopupMenu;
 import android.support.v4.view.ViewCompat;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.KeyEvent;
@@ -48,7 +49,7 @@ public class ToadBaseWebActivity extends AppCompatActivity implements View.OnCli
     protected ToadWebView mWebView;
 
     protected WebSettings mWebSettings;
-    protected String mUserAgent;
+    protected String mDefaultUserAgent;
     protected boolean mIsFullscreen;
 
     public class ToadWebView extends NestedScrollAgentWebView {
@@ -121,7 +122,7 @@ public class ToadBaseWebActivity extends AppCompatActivity implements View.OnCli
         mWebView = createWebView(this);
 
         mWebSettings = mWebView.getSettings();
-        mUserAgent = mWebSettings.getUserAgentString();
+        mDefaultUserAgent = mWebSettings.getUserAgentString();
 
         CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(-1, -1);
         params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
@@ -137,7 +138,7 @@ public class ToadBaseWebActivity extends AppCompatActivity implements View.OnCli
     protected void createAgentWeb() {
         beforeCreateAgentWeb();
         mAgentWeb = mAgentWebBuilder.createAgentWeb().ready().go(null);
-        mWebSettings.setUserAgentString(mUserAgent);
+        mWebSettings.setUserAgentString(mDefaultUserAgent);
         afterCreateAgentWeb();
     }
     
@@ -154,6 +155,20 @@ public class ToadBaseWebActivity extends AppCompatActivity implements View.OnCli
         mAppBarLayout.setExpanded(true, true);
         mWebView.setNestedScrollingEnabled(true);
         mIsFullscreen = false;
+    }
+
+    public void enableDesktopMode() {
+        mWebSettings.setUserAgentString(mDefaultUserAgent.replace("Android", "").replace("Mobile", ""));
+    }
+
+    public void disableDesktopMode() {
+        mWebSettings.setUserAgentString(mDefaultUserAgent);
+    }
+
+    public void copyUrlToClipboard() {
+        String url = mWebView.getUrl();
+        setClipboard(getApplicationContext(), url);
+        Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
     }
 
     public void exit() {
@@ -199,6 +214,18 @@ public class ToadBaseWebActivity extends AppCompatActivity implements View.OnCli
             case R.id.menu_item_fullscreen:
                 enterFullscreen();
                 return true;
+            case R.id.menu_item_desktop_mode:
+                if (!item.isChecked()) {
+                    enableDesktopMode();
+                    item.setChecked(true);
+                } else {
+                    disableDesktopMode();
+                    item.setChecked(false);
+                }
+                return true;
+            case R.id.menu_item_copy_url:
+                copyUrlToClipboard();
+                return true;
             case R.id.menu_item_exit:
                 exit();
                 return true;
@@ -233,26 +260,37 @@ public class ToadBaseWebActivity extends AppCompatActivity implements View.OnCli
         super.onResume();
     }
 
-    public DisplayMetrics getDisplayMetrics() {
+    private void setClipboard(Context context, String text) {
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(text);
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+            clipboard.setPrimaryClip(clip);
+        }
+    }
+
+    private DisplayMetrics getDisplayMetrics() {
         Context context = this.getApplicationContext();
         return context.getResources().getDisplayMetrics();
     }
 
-    public int dpToPx(int dp) {
+    private int dpToPx(int dp) {
         return (int) (dp * getDisplayMetrics().density + 0.5f);
     }
 
-    public int pxToDp(int px) {
+    private int pxToDp(int px) {
         return (int) (px / getDisplayMetrics().density + 0.5f);
     }
 
-    public Display getDefaultDisplay() {
+    private Display getDefaultDisplay() {
         Context context = this.getApplicationContext();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         return windowManager.getDefaultDisplay();
     }
 
-    public int getDisplayWidth() {
+    private int getDisplayWidth() {
         Display display = getDefaultDisplay();
         if (Build.VERSION.SDK_INT >= 13) {
             Point size = new Point();
@@ -263,7 +301,7 @@ public class ToadBaseWebActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public int getDisplayHeight() {
+    private int getDisplayHeight() {
         Display display = getDefaultDisplay();
         if (Build.VERSION.SDK_INT >= 13) {
             Point size = new Point();

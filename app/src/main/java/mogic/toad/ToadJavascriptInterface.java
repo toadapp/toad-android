@@ -15,58 +15,113 @@ public class ToadJavascriptInterface {
         }
     }
 
-    public static class UrlBlacklist extends BaseObject {
-        public UrlBlacklist(ToadWebActivity activity) {
+    public static class UrlWhitelist extends BaseObject {
+        public UrlWhitelist(ToadWebActivity activity) {
             super(activity);
         }
 
         @JavascriptInterface
-        public boolean intercept(String url) {
+        public boolean match(String url) {
             if (!securityCheck())
                 return false;
-            return ToadUrlInterceptor.intercept(url);
+            return ToadUrlInterceptor.Whitelist.match(url);
         }
 
         @JavascriptInterface
         public boolean contain(String key) {
             if (!securityCheck())
                 return false;
-            return ToadUrlInterceptor.contain(key);
+            return ToadUrlInterceptor.Whitelist.contain(key);
         }
 
         @JavascriptInterface
         public void add(String key) {
             if (!securityCheck())
                 return;
-            ToadUrlInterceptor.add(key);
+            ToadUrlInterceptor.Whitelist.add(key);
         }
 
         @JavascriptInterface
         public int size() {
             if (!securityCheck())
                 return 0;
-            return ToadUrlInterceptor.size();
+            return ToadUrlInterceptor.Whitelist.size();
         }
 
         @JavascriptInterface
         public void remove(String key) {
             if (!securityCheck())
                 return;
-            ToadUrlInterceptor.remove(key);
+            ToadUrlInterceptor.Whitelist.remove(key);
         }
 
         @JavascriptInterface
         public void removeUrls(String url) {
             if (!securityCheck())
                 return;
-            ToadUrlInterceptor.removeMatched(url);
+            ToadUrlInterceptor.Whitelist.removeMatched(url);
         }
 
         @JavascriptInterface
         public void clear() {
             if (!securityCheck())
                 return;
-            ToadUrlInterceptor.clear();
+            ToadUrlInterceptor.Whitelist.clear();
+        }
+    }
+
+    public static class UrlBlacklist extends BaseObject {
+        public UrlBlacklist(ToadWebActivity activity) {
+            super(activity);
+        }
+
+        @JavascriptInterface
+        public boolean match(String url) {
+            if (!securityCheck())
+                return false;
+            return ToadUrlInterceptor.Blacklist.match(url);
+        }
+
+        @JavascriptInterface
+        public boolean contain(String key) {
+            if (!securityCheck())
+                return false;
+            return ToadUrlInterceptor.Blacklist.contain(key);
+        }
+
+        @JavascriptInterface
+        public void add(String key) {
+            if (!securityCheck())
+                return;
+            ToadUrlInterceptor.Blacklist.add(key);
+        }
+
+        @JavascriptInterface
+        public int size() {
+            if (!securityCheck())
+                return 0;
+            return ToadUrlInterceptor.Blacklist.size();
+        }
+
+        @JavascriptInterface
+        public void remove(String key) {
+            if (!securityCheck())
+                return;
+            ToadUrlInterceptor.Blacklist.remove(key);
+        }
+
+        @JavascriptInterface
+        public void removeUrls(String url) {
+            if (!securityCheck())
+                return;
+            ToadUrlInterceptor.Blacklist.removeMatched(url);
+        }
+
+        @JavascriptInterface
+        public void clear() {
+            if (!securityCheck())
+                return;
+            ToadUrlInterceptor.Blacklist.clear();
         }
     }
 

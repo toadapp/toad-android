@@ -1,5 +1,6 @@
 package mogic.toad;
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -52,8 +53,8 @@ public class ToadWebActivity extends ToadBaseWebActivity implements IProxyListen
         ToadHosts.set("cpro\\.baidustatic\\.com", "0.0.0.0");
     }
 
-    protected void setDefaultUrlBlacklist() {
-        ToadUrlInterceptor.add("https://(www\\.)?mohu\\d?\\..+/matomo/piwik\\.js");
+    protected void setDefaultInterceptorUrls() {
+        ToadUrlInterceptor.Blacklist.add("https://(www\\.)?mohu\\d?\\..+/matomo/piwik\\.js");
    }
 
     protected void setDefaultTrustedUrls() {
@@ -70,7 +71,7 @@ public class ToadWebActivity extends ToadBaseWebActivity implements IProxyListen
         initCustomMenuItems();
         ConnectionHandler.setForceHttps(true);
         setDefaultHosts();
-        setDefaultUrlBlacklist();
+        setDefaultInterceptorUrls();
         setDefaultTrustedUrls();
     }
 
@@ -79,9 +80,12 @@ public class ToadWebActivity extends ToadBaseWebActivity implements IProxyListen
         mProxyServer = new ProxyServer();
         mProxyServer.setCallback(this);
         mProxyServer.startServer();
-        mWebView.addJavascriptInterface(new ToadJavascriptInterface.Hosts(this), "ToadHosts");
-        mWebView.addJavascriptInterface(new ToadJavascriptInterface.UrlBlacklist(this), "ToadUrlBlacklist");
-        mWebView.addJavascriptInterface(new ToadJavascriptInterface.Menu(this), "ToadMenu");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            mWebView.addJavascriptInterface(new ToadJavascriptInterface.Hosts(this), "ToadHosts");
+            mWebView.addJavascriptInterface(new ToadJavascriptInterface.UrlWhitelist(this), "ToadUrlWhitelist");
+            mWebView.addJavascriptInterface(new ToadJavascriptInterface.UrlBlacklist(this), "ToadUrlBlacklist");
+            mWebView.addJavascriptInterface(new ToadJavascriptInterface.Menu(this), "ToadMenu");
+        }
     }
 
     @Override

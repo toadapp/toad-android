@@ -6,10 +6,22 @@
         android:id="@+id/menu_item_refresh"
         android:title="刷新"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/menu_item_fullscreen"
         android:title="全屏"
         app:showAsAction="never" />
+
+    <item android:id="@+id/menu_item_desktop_mode"
+        android:title="桌面模式"
+        android:checkable="true"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_item_copy_url"
+        android:title="复制 URL"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/menu_item_exit"
         android:title="退出"
